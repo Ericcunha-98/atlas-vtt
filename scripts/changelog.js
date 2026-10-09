@@ -68,13 +68,13 @@ function pendingRelease(root, version) {
 }
 
 function formatRelease(release) {
-  return `# Atlas VTT ${release.version} — ${release.title}\n\n${release.date}\n\n${release.markdown}\n`;
+  return `# Távola VTT ${release.version} — ${release.title}\n\n${release.date}\n\n${release.markdown}\n`;
 }
 
 function formatPrerelease(version, pendingNotes) {
   const { base } = parseVersion(version);
   const notes = pendingNotes || '- No player-facing changes recorded yet.';
-  return `# Atlas VTT ${version} — Beta build\n\nPre-release build for testing ahead of ${base}. Install it through BRAT; it is not published to the Obsidian community directory.\n\n${notes}\n`;
+  return `# Távola VTT ${version} — Beta build\n\nPre-release build for testing ahead of ${base}. Install it through BRAT; it is not published to the Obsidian community directory.\n\n${notes}\n`;
 }
 
 function generateChangelog(root, { check = false } = {}) {
@@ -86,7 +86,7 @@ function generateChangelog(root, { check = false } = {}) {
   const bundle = { version: manifest.version, releases: pending ? [pending, ...releases] : releases };
   const outputs = {
     'src/app/changelog/releases.json': `${JSON.stringify(bundle, null, 2)}\n`,
-    'CHANGELOG.md': '# Atlas VTT changelog\n\n<!-- Generated from changelog/*.md. Run npm run changelog:generate. -->\n\n' +
+    'CHANGELOG.md': '# Távola VTT changelog\n\n<!-- Generated from changelog/*.md. Run npm run changelog:generate. -->\n\n' +
       releases.map(release => `## ${release.version} — ${release.title}\n\n${release.date}\n\n${release.markdown.replace(/^## /gm, '### ')}\n`).join('\n'),
   };
   for (const [file, content] of Object.entries(outputs)) {

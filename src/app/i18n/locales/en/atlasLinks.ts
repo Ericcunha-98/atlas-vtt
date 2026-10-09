@@ -10,7 +10,7 @@ export const atlasLinks = {
   'atlasLinks.kindEncounter': 'Encounter',
   'atlasLinks.kindScene': 'Scene',
   'atlasLinks.openFailed': 'Could not open the scene',
-  'atlasLinks.openWithAtlas': 'Open with Atlas',
+  'atlasLinks.openWithAtlas': 'Open with Távola',
   'atlasLinks.placeFailed': 'Could not place the encounter',
   'atlasLinks.placeOnMap': 'Place on map',
   'atlasLinks.snapshotMissing': 'This scene has no snapshot named "{name}".',

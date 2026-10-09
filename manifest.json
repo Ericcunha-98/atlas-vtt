@@ -1,10 +1,10 @@
 {
-  "id": "atlas-vtt",
-  "name": "Atlas VTT",
+  "id": "tavola-vtt",
+  "name": "Távola VTT",
   "version": "0.7.0",
   "minAppVersion": "1.8.7",
-  "description": "Run tabletop RPG battle maps with tokens, fog of war, grids, dice and a separate player view.",
-  "author": "Fabian Urbanek",
-  "authorUrl": "https://github.com/ByteMirror",
+  "description": "Távola VTT: mapas, tokens, grade, névoa de guerra, dados e visão do jogador.",
+  "author": "Ericcunha-98",
+  "authorUrl": "https://github.com/Ericcunha-98",
   "isDesktopOnly": true
 }

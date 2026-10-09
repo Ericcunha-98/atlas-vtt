@@ -1,5 +1,5 @@
 // types.ts
-// Shared interfaces and types for Atlas VTT
+// Shared interfaces and types for Távola VTT
 
 import type { InitiativeSide } from './types/initiativeRulesTypes';
 import type { LightEmission, TokenVision } from './types/lightingTypes';
@@ -28,7 +28,7 @@ export interface TokenResourceValue {
 
 /** Base interface for any token entity. */
 export interface BaseToken {
-  /** False preserves the whole artwork without an Atlas frame. Defaults to true. */
+  /** False preserves the whole artwork without an Távola frame. Defaults to true. */
   showRing?: boolean;
   /** Expendable resources by definition key; see `src/app/resources/`. */
   resources?: Record<string, TokenResourceValue>;
@@ -39,7 +39,7 @@ export interface BaseToken {
   y: number;
   imagePath: string;
   tags?: string[];
-  /** Hex colour for the Atlas ring; undefined uses white. */
+  /** Hex colour for the Távola ring; undefined uses white. */
   ringColor?: string;
   /** Active condition IDs referencing ConditionDefinition.id from collection settings */
   conditions?: string[];

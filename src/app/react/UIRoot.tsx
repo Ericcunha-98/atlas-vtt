@@ -43,7 +43,7 @@ interface UIRootProps {
 }
 
 /**
- * Root component for the Atlas VTT UI
+ * Root component for the Távola VTT UI
  * Provides a context with core objects to all child components
  */
 export const UIRoot: React.FC<UIRootProps> = ({ app, view, pixiApp }) => {

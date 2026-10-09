@@ -93,7 +93,7 @@ export default class AtlasVTTPlugin extends Plugin {
     const settingsReady = storageReady.catch(() => undefined).then(async () => {
       await presetFiles.load();
       await migrateSettingsToPluginData(this.app, this, presetFiles);
-    }).catch((error: unknown) => console.error('[Atlas] Carrying the settings over into the plugin data failed:', error));
+    }).catch((error: unknown) => console.error('[Távola] Carrying the settings over into the plugin data failed:', error));
     // Created before the views so every restored tab shares it; it reads the
     // plugin's data only once the migration has put the settings there.
     this.settingsService = new SettingsService(this.app, settingsReady, this);

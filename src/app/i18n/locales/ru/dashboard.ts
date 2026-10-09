@@ -21,7 +21,7 @@ export const dashboard: Translation = {
   'dashboard.recent': 'Недавние сцены',
   'dashboard.loadingScenes': 'Загрузка сцен…',
   'dashboard.noScenes': 'Сцен пока нет. Создайте первую, чтобы начать путь.',
-  'dashboard.title': 'Панель Atlas',
+  'dashboard.title': 'Панель Távola',
   'dashboard.failed': 'Не удалось загрузить панель. Подробности в консоли.',
   'dashboard.openFailed': 'Не удалось открыть сцену',
   'dashboard.addMapFirst': 'Сначала добавьте изображение карты, затем создайте из него сцену.',

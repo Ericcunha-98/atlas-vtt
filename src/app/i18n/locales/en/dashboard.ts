@@ -21,7 +21,7 @@ export const dashboard = {
   'dashboard.recent': 'Recent Scenes',
   'dashboard.loadingScenes': 'Loading scenes…',
   'dashboard.noScenes': 'No scenes yet. Create one to begin your journey.',
-  'dashboard.title': 'Atlas dashboard',
+  'dashboard.title': 'Távola dashboard',
   'dashboard.failed': 'Dashboard loading failed. Please check console for errors.',
   'dashboard.openFailed': 'Error opening scene',
   'dashboard.addMapFirst': 'Add a map image first, then create a scene from it.',

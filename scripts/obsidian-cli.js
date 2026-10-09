@@ -164,7 +164,7 @@ function printHelp() {
       '',
       'Examples:',
       '  node scripts/obsidian-cli.js help',
-      '  node scripts/obsidian-cli.js --vault test-vault plugin:reload id=atlas-vtt',
+      '  node scripts/obsidian-cli.js --vault test-vault plugin:reload id=tavola-vtt',
       '  node scripts/obsidian-cli.js --vault test-vault dev:errors',
       '',
     ].join('\n')

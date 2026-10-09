@@ -1,5 +1,5 @@
 /**
- * Utility functions for handling file paths in Atlas VTT
+ * Utility functions for handling file paths in Távola VTT
  */
 
 /**

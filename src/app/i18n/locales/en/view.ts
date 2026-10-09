@@ -13,7 +13,7 @@ export const view = {
   'view.initializing': 'Initializing...',
   'view.sceneNotFound': 'Scene file not found: {path}',
   'view.preparing': 'Preparing...',
-  'view.canvas': 'Atlas Canvas',
+  'view.canvas': 'Távola Canvas',
   'view.player': 'Player view',
   'view.playerRestoreFailed': 'Unable to restore player view. Send a scene to this window again.',
   'view.connecting': 'Connecting to game session…',

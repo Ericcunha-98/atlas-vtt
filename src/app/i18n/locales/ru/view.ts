@@ -13,7 +13,7 @@ export const view: Translation = {
   'view.initializing': 'Запуск...',
   'view.sceneNotFound': 'Файл сцены не найден: {path}',
   'view.preparing': 'Подготовка...',
-  'view.canvas': 'Холст Atlas',
+  'view.canvas': 'Холст Távola',
   'view.player': 'Экран игроков',
   'view.playerRestoreFailed': 'Не удалось восстановить экран игроков. Снова отправьте сцену в это окно.',
   'view.connecting': 'Подключение к игре…',

@@ -58,7 +58,7 @@ export function formatDiagnostics(diagnostics: IssueDiagnostics, { includePlugin
     ? `${diagnostics.obsidianVersion} (Electron ${diagnostics.electronVersion})`
     : diagnostics.obsidianVersion;
   const lines = [
-    `- Atlas VTT: ${diagnostics.pluginVersion}`,
+    `- Távola VTT: ${diagnostics.pluginVersion}`,
     `- Obsidian: ${obsidian}`,
     `- System: ${diagnostics.system}, language ${diagnostics.language}`,
     `- Theme: ${diagnostics.theme}`,

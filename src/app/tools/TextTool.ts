@@ -1,5 +1,5 @@
 /**
- * Text Tool for Atlas VTT
+ * Text Tool for Távola VTT
  * 
  * Handles creation and placement of text elements on the map.
  * Allows users to click on the map to place text and provides

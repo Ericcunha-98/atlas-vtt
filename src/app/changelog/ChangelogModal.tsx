@@ -24,7 +24,7 @@ export class ChangelogModal extends Modal {
       cls: 'atlas-changelog-icon',
       attr: { src: atlasIcon, alt: '', 'aria-hidden': 'true' },
     });
-    this.titleEl.createSpan({ text: 'What’s new in Atlas' });
+    this.titleEl.createSpan({ text: 'What’s new in Távola' });
     this.titleEl.createSpan({ cls: 'atlas-changelog-version', text: this.options.currentVersion });
     const repositoryLinkHost = this.titleEl.createSpan({ cls: 'atlas-changelog-title-actions' });
     this.modalEl.addClass(...ATLAS_NATIVE_MODAL_CLASSES, 'atlas-changelog-modal');
