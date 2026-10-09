@@ -1,5 +1,6 @@
 import { App, ItemView, WorkspaceLeaf, TFile, Notice } from "obsidian";
 import type AtlasVTTPlugin from '../../main';
+import tavolaCrestUrl from './assets/branding/tavola-crest.webp';
 import { createRoot, Root } from 'react-dom/client';
 import React, { useState, useEffect } from 'react';
 import { AssetService } from './services/AssetService';
@@ -132,6 +133,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         <main className="dashboard-stage">
           <div className="dashboard-hero">
             <h1 className="dashboard-title">
+              <img className="tavola-brand-mark" src={tavolaCrestUrl} alt="Brasão do Távola" />
               Távola<span>VTT</span>
             </h1>
             <p className="dashboard-tagline">{t('dashboard.tagline')}</p>
