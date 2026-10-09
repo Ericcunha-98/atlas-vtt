@@ -7,7 +7,7 @@
     "obsidian": "node scripts/obsidian-cli.js",
     "obsidian:help": "node scripts/obsidian-cli.js help",
     "obsidian:print-bin": "node scripts/obsidian-cli.js --print-bin",
-    "obsidian:reload": "node scripts/obsidian-cli.js plugin:reload id=atlas-vtt",
+    "obsidian:reload": "node scripts/obsidian-cli.js plugin:reload id=tavola-vtt",
     "obsidian:errors": "node scripts/obsidian-cli.js dev:errors",
     "obsidian:console": "node scripts/obsidian-cli.js dev:console",
     "build": "cross-env COPY_ON_CHANGE=false vite build",
@@ -90,7 +90,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Ericcunha-98/atlas-vtt.git"
+    "url": "https://github.com/Ericcunha-98/tavola-vtt.git"
   },
   "engines": {
     "node": ">=22"
