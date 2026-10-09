@@ -5,15 +5,18 @@
  * Two halves, deliberately separate:
  *
  * - `linkDiceIn` rewrites text nodes into clickable spans. It must ONLY be used
- *   on static DOM that Atlas produced and owns — currently the output of
- *   Obsidian's MarkdownRenderer, which is rebuilt wholesale on every render.
+ *   on static DOM that Atlas produced and owns — the output of Obsidian's
+ *   MarkdownRenderer and the DOM a layout's `javascript` block returns, both
+ *   rebuilt wholesale on every render.
  *   Never point it at DOM owned by React or Svelte: those frameworks hold
  *   references to the text nodes it replaces, and throw on their next update.
  * - `attachDiceRolling` only listens for clicks, so it is safe on any container.
  */
 
 import type { App } from 'obsidian';
-import type { DiceRollResult } from '../tools/DiceTool';
+import type { DiceRollResult } from '../types/diceTypes';
+import type { DiceRollOrigin, TokenRollContext } from '../types/diceRollOrigin';
+import { rollOrigin } from '../tools/diceRollOrigins';
 import { ATLAS_VIEW_TYPE } from '../atlas-view';
 import { t } from '../i18n';
 
@@ -38,6 +41,13 @@ const HIT_POINTS_SELECTOR = '[data-hit-points]';
 const SKIPPED_TAGS = new Set(['SCRIPT', 'STYLE', 'INPUT', 'TEXTAREA', 'BUTTON']);
 
 export interface DiceRollSource {
+  /** The view that owns this statblock; used for routing, never saved on the roll. */
+  viewId?: string | undefined;
+  /**
+   * The view, scene and tokens the statblock was opened for. A roll for one of those
+   * tokens carries its origin with its event; never saved on the roll.
+   */
+  originContext?: TokenRollContext | undefined;
   tokenId?: string | undefined;
   statblockPath?: string | undefined;
   tokenName?: string | undefined;
@@ -49,31 +59,36 @@ export interface DiceRollSource {
 export type HitPointsRollHandler = (formula: string, abilityName: string | undefined) => void;
 
 interface DiceToolLike {
-  rollDice(formula: string, source?: DiceRollResult['source']): DiceRollResult;
+  rollDice(formula: string, source?: DiceRollResult['source'], origin?: DiceRollOrigin): DiceRollResult | null;
 }
 
 /**
- * Resolves Atlas' dice tool from the open map view. Returns null when no map is
- * open, in which case dice are left as plain text.
+ * Resolves Atlas' dice tool from the open map view, with that view's id. Returns null
+ * when no map is open, in which case dice are left as plain text.
  */
-function resolveDiceTool(app: App): DiceToolLike | null {
+function resolveDiceTool(app: App, viewId?: string): { diceTool: DiceToolLike; viewId: string | undefined } | null {
   for (const leaf of app.workspace.getLeavesOfType(ATLAS_VIEW_TYPE)) {
     const view = leaf.view as unknown as {
+      viewId?: string;
       serviceManager?: { getToolController?: () => { getDiceTool?: () => DiceToolLike } };
     };
+    if (viewId && view?.viewId !== viewId) continue;
     const diceTool = view?.serviceManager?.getToolController?.()?.getDiceTool?.();
-    if (diceTool) return diceTool;
+    if (diceTool) return { diceTool, viewId: view.viewId };
   }
   return null;
 }
 
 /**
  * Rolls through the dice tool of the open map, tagged with its statblock source.
- * Returns null when no map is open.
+ * A statblock opened for a scene rolls in the view it was opened in, and a roll for
+ * one of its tokens carries that token's origin. Returns null when no map is open.
  */
 export function rollStatblockDice(app: App, formula: string, source: DiceRollSource): DiceRollResult | null {
-  const diceTool = resolveDiceTool(app);
-  if (!diceTool) return null;
+  const context = source.originContext;
+  const resolved = resolveDiceTool(app, context?.viewId ?? source.viewId);
+  if (!resolved) return null;
+  const { diceTool } = resolved;
 
   const rollSource: NonNullable<DiceRollResult['source']> = { type: 'statblock' };
   if (source.tokenId) rollSource.tokenId = source.tokenId;
@@ -82,7 +97,10 @@ export function rollStatblockDice(app: App, formula: string, source: DiceRollSou
   if (source.tokenImagePath) rollSource.tokenImagePath = source.tokenImagePath;
   if (source.abilityName) rollSource.abilityName = source.abilityName;
 
-  return diceTool.rollDice(formula, rollSource);
+  // Proof of a token comes only from the context it was opened with, in the view it names.
+  const sameView = context !== undefined && resolved.viewId === context.viewId && (!source.viewId || source.viewId === context.viewId);
+  const origin = sameView ? rollOrigin(context, source.tokenId) : undefined;
+  return origin ? diceTool.rollDice(formula, rollSource, origin) : diceTool.rollDice(formula, rollSource);
 }
 
 /**

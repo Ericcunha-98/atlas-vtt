@@ -18,6 +18,7 @@ import {
   Settings,
   Snowflake,
   MonitorUp,
+  AppWindow,
   Move,
   Users,
   Palette,
@@ -30,7 +31,7 @@ import { useStore } from 'zustand';
 import { useAtlasStore, useViewStoreHook } from '../ViewStoreContext';
 import { useAtlasUI } from '../root/AtlasUIContext';
 import { PlayerWindowService } from '../../services/PlayerWindowService';
-import { presentActiveTabInPlayerWindow } from '../../services/PlayerWindowPresenter';
+import { openPlayerWindow, presentActiveTab } from '../../services/PlayerWindowPresenter';
 import { playerWindowStore } from '../../stores/playerWindowStore';
 import { debounce } from '../../../utils/debounce';
 import { cn } from '../../../utils/cn';
@@ -314,12 +315,22 @@ export function CommandPalette({ isOpen, onClose, toolbarRef, onCustomizeToolbar
       isActive: isPlayerWindowFrozen,
     },
     {
+      id: "open-player-window",
+      icon: <AppWindow />,
+      label: t('palette.openPlayerWindow'),
+      section: "mode",
+      action: () => {
+        void openPlayerWindow(app);
+        onClose();
+      },
+    },
+    {
       id: "transfer-player-view",
       icon: <MonitorUp />,
       label: t('palette.sendMapToPlayerView'),
       section: "mode",
       action: () => {
-        void presentActiveTabInPlayerWindow(app);
+        void presentActiveTab(app);
         onClose();
       },
     },
@@ -436,7 +447,7 @@ export function CommandPalette({ isOpen, onClose, toolbarRef, onCustomizeToolbar
   // Obsidian sets `contain: strict` on `.workspace-leaf`, which makes the leaf the
   // containing block of our fixed overlay. Viewport coordinates from the toolbar are
   // therefore converted into the overlay's frame before being applied.
-  const updatePosition = useCallback((isInitial: boolean = false): void => {
+  const updatePosition = useCallback((): void => {
     const overlay = overlayRef.current;
     if (!overlay) return;
     const frame = overlay.getBoundingClientRect();
@@ -452,19 +463,17 @@ export function CommandPalette({ isOpen, onClose, toolbarRef, onCustomizeToolbar
       });
     }
 
-    if (isInitial) {
-      // Small delay to ensure the position is set before enabling transitions
-      window.setTimeout(() => {
-        setHasCalculatedInitialPosition(true);
-      }, 50); // Allow one frame for position to be applied
-    }
   }, [toolbarRef]);
 
   // Measure before the first paint so the palette never flashes at a stale spot
   // The position is kept after closing so the palette leaves from where it was.
   useLayoutEffect(() => {
     if (isOpen) {
-      updatePosition(true);
+      updatePosition();
+      const win = overlayRef.current?.ownerDocument.defaultView;
+      if (!win) return;
+      const timeout = win.setTimeout(() => setHasCalculatedInitialPosition(true), 50);
+      return () => win.clearTimeout(timeout);
     } else {
       setHasCalculatedInitialPosition(false);
     }
@@ -506,39 +515,25 @@ export function CommandPalette({ isOpen, onClose, toolbarRef, onCustomizeToolbar
     }
   }, [searchQuery, activeTab, activeSubmenu, submenuOptions, showingSubmenu, filteredOptions.length]);
 
-  // Focus input when opened
+  // Every delayed focus attempt belongs to this opening and its own window.
   useEffect(() => {
-    if (isOpen && !isTemporarilyHidden) {
-      const focusInput = (): void => {
-        if (inputRef.current) {
-          inputRef.current.focus();
-          // Retry focus if it didn't take (e.g. animation timing)
-          window.setTimeout(() => {
-            if (document.activeElement !== inputRef.current && inputRef.current) {
-              inputRef.current.focus();
-            }
-          }, 10);
-        }
-      };
-
-      // Try multiple approaches to ensure focus
-      // Immediate attempt
-      focusInput();
-
-      // RAF attempt
-      window.requestAnimationFrame(() => {
-        focusInput();
-      });
-
-      // Delayed attempt as backup
-      const timeoutId = window.setTimeout(() => {
-        focusInput();
-      }, 50);
-
-      return () => {
-        window.clearTimeout(timeoutId);
-      };
-    }
+    const input = inputRef.current;
+    const win = input?.ownerDocument.defaultView;
+    if (!isOpen || isTemporarilyHidden || !input || !win) return;
+    const timers: number[] = [];
+    const focusInput = (): void => {
+      input.focus();
+      timers.push(win.setTimeout(() => {
+        if (input.ownerDocument.activeElement !== input) input.focus();
+      }, 10));
+    };
+    focusInput();
+    const frame = win.requestAnimationFrame(focusInput);
+    timers.push(win.setTimeout(focusInput, 50));
+    return () => {
+      win.cancelAnimationFrame(frame);
+      timers.forEach(timer => win.clearTimeout(timer));
+    };
   }, [isOpen, isTemporarilyHidden]);
 
   const clearSearch = (): void => {
