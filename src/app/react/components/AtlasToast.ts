@@ -1,4 +1,4 @@
-/** Show a temporary toast notification styled to match Atlas VTT. */
+/** Show a temporary toast notification styled to match Távola VTT. */
 export function showAtlasToast(message: string, duration = 3000): void {
   const container =
     document.querySelector<HTMLElement>('.atlas-toast-container') ??

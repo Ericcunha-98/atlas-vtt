@@ -1,7 +1,7 @@
 /**
  * Build-level feature switches.
  *
- * Atlas VTT ships offline-only for its first release. The features below are
+ * Távola VTT ships offline-only for its first release. The features below are
  * implemented but not shipped: their code is left in place and gated here, so
  * re-enabling one is a single edit rather than a revert.
  *
