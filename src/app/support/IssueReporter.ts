@@ -1,25 +1,16 @@
-import type { App, PluginManifest } from 'obsidian';
-import { collectDiagnostics } from './diagnostics';
+import { Notice, type App, type PluginManifest } from 'obsidian';
 import type { AtlasErrorLog } from './errorLog';
-import { createIssueSubmitter } from './issueSubmission';
-import { IssueReportModal, type IssueReportPreset } from './IssueReportModal';
+import type { IssueReportPreset } from './IssueReportModal';
 
-/** Entry point shared by the command palette and the settings tab. */
+/** Bloqueia envio para o serviço de terceiros até existir um backend Távola. */
 export class IssueReporter {
   constructor(
     private readonly app: App,
     private readonly manifest: PluginManifest,
     private readonly errorLog: AtlasErrorLog,
   ) {}
-
-  open(preset: IssueReportPreset = {}): void {
-    new IssueReportModal(this.app, {
-      preset,
-      submitReport: createIssueSubmitter('https://srv1871379.hstgr.cloud/atlas/reports'),
-      diagnostics: collectDiagnostics(this.app, this.manifest),
-      errors: this.errorLog.recent(),
-      openExternal: url => { window.open(url); },
-      copyText: text => navigator.clipboard.writeText(text),
-    }).open();
+  open(_preset: IssueReportPreset = {}): void {
+    void this.app; void this.manifest; void this.errorLog;
+    new Notice('Távola: envio automático desativado. Use o GitHub do seu projeto para relatar problemas.');
   }
 }

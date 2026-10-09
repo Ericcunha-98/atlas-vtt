@@ -1,5 +1,5 @@
 {
-  "name": "atlas-vtt",
+  "name": "tavola-vtt",
   "version": "0.7.0",
   "main": "dist/main.js",
   "scripts": {
@@ -33,9 +33,9 @@
     "ttrpg",
     "battle-map"
   ],
-  "author": "Fabian Urbanek",
+  "author": "Ericcunha-98 (adaptação); Fabian Urbanek (autor original)",
   "license": "AGPL-3.0-only",
-  "description": "Virtual tabletop for tabletop RPGs inside Obsidian.",
+  "description": "Távola VTT — mesa virtual baseada no software livre Atlas VTT.",
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-slider": "^1.3.2",
@@ -90,7 +90,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ByteMirror/atlas-vtt.git"
+    "url": "https://github.com/Ericcunha-98/atlas-vtt.git"
   },
   "engines": {
     "node": ">=22"

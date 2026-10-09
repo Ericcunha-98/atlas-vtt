@@ -132,7 +132,7 @@ const Dashboard: React.FC<DashboardProps> = ({
         <main className="dashboard-stage">
           <div className="dashboard-hero">
             <h1 className="dashboard-title">
-              Atlas<span>VTT</span>
+              Távola<span>VTT</span>
             </h1>
             <p className="dashboard-tagline">{t('dashboard.tagline')}</p>
           </div>
@@ -250,7 +250,7 @@ const Dashboard: React.FC<DashboardProps> = ({
 };
 
 /**
- * Dashboard View - Welcome screen and main entry point for Atlas VTT
+ * Dashboard View - Welcome screen and main entry point for Távola VTT
  */
 export class DashboardView extends ItemView {
   private root: Root | null = null;
